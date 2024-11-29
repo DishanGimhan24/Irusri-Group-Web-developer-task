@@ -29,7 +29,10 @@ const ProductList = () => {
           alert(`${product.name} is already in the cart!`);
         } else {
           // If the product is not in the cart, add it to the cart
-          const newCart = [...storedCart, product];
+
+          const productWithDefaultQuantity = { ...product, quantity: 1 };
+
+          const newCart = [...storedCart,productWithDefaultQuantity];
       
           // Update the state and save the new cart to localStorage
           setCart(newCart);
