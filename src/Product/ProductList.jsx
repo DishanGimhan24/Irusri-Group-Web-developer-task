@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import './ProductList.css';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Header from '../Header/Header';
+
 
 const ProductList = () => {
 
@@ -47,6 +49,7 @@ const ProductList = () => {
     
     return (
         <div>
+           <Header/>
             <section style={{ backgroundColor: '#eee' }}>
                 <div className="py-5">
                     <div className="row justify-content-center mb-3">

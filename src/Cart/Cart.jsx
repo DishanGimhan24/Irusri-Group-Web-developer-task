@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
+import Header from "../Header/Header";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -32,6 +33,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Header/>
       <div className="container padding-bottom-3x mb-1">
         <div className="table-responsive shopping-cart">
           <table className="table">
