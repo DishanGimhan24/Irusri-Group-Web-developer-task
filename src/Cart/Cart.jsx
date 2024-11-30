@@ -28,6 +28,8 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart)); // Save to local storage
   };
 
+  const subtotal = cart.reduce((total,item)=>total+ parseFloat(item.price)*item.quantity,0)
+
   return (
     <div>
       <div className="container padding-bottom-3x mb-1">
@@ -55,15 +57,13 @@ const Cart = () => {
                           <img src={product.image} alt="Product" />
                         </a>
                         <div className="product-info">
-                          <h4 className="product-title">
-                            <a href="#">{product.name}</a>
-                          </h4>
+                          <div className="product-title">
+                            <h3>{product.name}</h3>
+                          </div>
                           <span>
-                            <em>Size:</em> {product.size || "N/A"}
+                            <h6>Price:${product.price}</h6>
                           </span>
-                          <span>
-                            <em>Color:</em> {product.color || "N/A"}
-                          </span>
+                          
                         </div>
                       </div>
                     </td>
@@ -115,25 +115,25 @@ const Cart = () => {
         {/* Shopping Cart Totals */}
         <div className="shopping-cart-footer">
           <div className="column">
-            <form className="coupon-form" method="post">
+            <div className="coupon-form">
               <input
                 className="form-control form-control-sm"
                 type="text"
                 placeholder="Coupon code"
                 required=""
               />
-              <button className="btn btn-outline-primary btn-sm" type="submit">
+              <button className="btn btn-outline-primary btn-sm">
                 Apply Coupon
               </button>
-            </form>
+            </div>
           </div>
           <div className="column text-lg">
-            Subtotal: <span className="text-medium">$289.68</span>
+            Subtotal: <span className="text-medium">${subtotal.toFixed(2)}</span>
           </div>
         </div>
         <div className="shopping-cart-footer">
           <div className="column">
-            <a className="btn btn-outline-secondary" href="#">
+            <a className="btn btn-outline-secondary" href="/">
               <i className="icon-arrow-left"></i>&nbsp;Back to Shopping
             </a>
           </div>
