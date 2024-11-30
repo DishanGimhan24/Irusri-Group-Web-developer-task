@@ -1,134 +1,138 @@
-import React, {useState} from "react";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import "./Register.css";
 
 const Register = () => {
+  // Validation schema using Yup
+  const SignupSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
 
+  const handleSubmit = (values) => {
+    // Save form data to localStorage
+    localStorage.setItem("formData", JSON.stringify(values));
+    console.log("Form submitted:", values);
+    alert("Registration successful!");
+  };
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        pass: "",
-      });
-
-
-const handleSubmit = (e) => {
-        e.preventDefault();
-        // Save formData to localStorage
-        localStorage.setItem("formData", JSON.stringify(formData));
-        // Optionally, you could reset the form or provide feedback
-        console.log("Form submitted:", formData);
-        alert("Registration successful!");
-      };
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      
-
-    
   return (
     <div>
-      <section class="signup">
-  
-          <div class="signup-content">
-            <div class="signup-form">
-              <h2 class="form-title">Sign up</h2>
-              <form method="POST" class="register-form" id="register-form" onSubmit={handleSubmit}>
-                <div class="form-group">
-                  <label for="name">
-                    <i class="zmdi zmdi-account material-icons-name"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    id="name"
-                    placeholder="Your Name"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="email">
-                    <i class="zmdi zmdi-email"></i>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    id="email"
-                    placeholder="Your Email"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="pass">
-                    <i class="zmdi zmdi-lock"></i>
-                  </label>
-                  <input
-                    type="password"
-                    name="pass"
-                    id="pass"
-                    value={formData.pass}
-                    placeholder="Password"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="re-pass">
-                    <i class="zmdi zmdi-lock-outline"></i>
-                  </label>
-                  <input
-                    type="password"
-                    name="re_pass"
-                    id="re_pass"
-                    placeholder="Repeat your password"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
-                    type="checkbox"
-                    name="agree-term"
-                    id="agree-term"
-                    class="agree-term"
-                  />
-                  <label for="agree-term" class="label-agree-term">
-                    <span>
-                      <span></span>
-                    </span>
-                    I agree all statements in{" "} Terms of service
-                    <br/>
-                    <a href="#" class="term-service">
+      <section className="signup">
+        <div className="signup-content">
+          <div className="signup-form">
+            <h2 className="form-title">Sign up</h2>
+            <Formik
+              initialValues={{
+                name: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+              }}
+              validationSchema={SignupSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form className="register-form">
+                  <div className="form-group">
+                    <label htmlFor="name">
+                      <i className="zmdi zmdi-account material-icons-name"></i>
+                    </label>
+                    <Field
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="name" component="div" className="error" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">
+                      <i className="zmdi zmdi-email"></i>
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="email" component="div" className="error" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="password">
+                      <i className="zmdi zmdi-lock"></i>
+                    </label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      className="form-control"
+                    />
+                    <ErrorMessage name="password" component="div" className="error" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="confirmPassword">
+                      <i className="zmdi zmdi-lock-outline"></i>
+                    </label>
+                    <Field
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Repeat your password"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="checkbox"
+                      name="agree-term"
+                      className="agree-term"
+                    />
+                    <label htmlFor="agree-term" className="label-agree-term">
+                      I agree to all statements in{" "}
+                      <br/>
+                      <a href="#" className="term-service">
+                        Terms of service
+                      </a>
+                    </label>
+                  </div>
+                  <div className="btn btn-primary">
+                    <button class="btn btn-primary"
+                      type="submit"
                       
-                    </a>
-                  </label>
-                </div>
-                <div class="form-group form-button">
-                  <input
-                    type="submit"
-                    name="signup"
-                    id="signup"
-                    class="form-submit"
-                    value="Register"
-                  />
-                </div>
-              </form>
-            </div>
-            <div class="signup-img">
-              <figure>
-                <img
-                  src="https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
-                  alt="sign up image"
-                  style={{ height: "400px", width: "400px" }}
-                />
-              </figure>
-              <a href="#" class="signup-image-link">
-                I am already member
-              </a>
-            </div>
+                      disabled={isSubmitting}
+                    >
+                      Register
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
-       
+          <div className="signup-img">
+            <figure>
+              <img 
+                src="https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
+                alt="sign up"
+                style={{ height: "400px", width: "400px" }}
+              />
+            </figure>
+            <a href="/login" className="signup-image-link">
+              I am already a member
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   );

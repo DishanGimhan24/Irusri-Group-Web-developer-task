@@ -5,17 +5,20 @@ import Cart from "./Cart/Cart";
 import Header from "./Header/Header";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
+import ProtectedRoute from "./Authantications/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter> 
       <Routes> 
-        <Route path="/" element={<ProductList />} /> 
-        <Route path="/cart" element={<Cart/>} /> 
+      
+        <Route path="/" element={<ProtectedRoute><ProductList /> </ProtectedRoute>} /> 
+        <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>} /> 
         <Route path="/header" element={<Header/>} />
-        <Route path= "/register" element={<Register/>} />
-        <Route path="/login" element={<Login/>}/>
+       
 
+        <Route path="/login" element={<Login/>}/>
+        <Route path= "/register" element={<Register/>} />
       </Routes>
     </BrowserRouter>
   );

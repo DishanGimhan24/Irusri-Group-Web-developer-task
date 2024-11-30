@@ -200,7 +200,7 @@ input {
   display: block;
   border: none;
   border-bottom: 1px solid #999;
-  padding: 6px 30px;
+
   font-family: Poppins;
   box-sizing: border-box; }
   input::-webkit-input-placeholder {
@@ -438,8 +438,6 @@ label.valid {
     -o-justify-content: center;
     -ms-justify-content: center; }
 
-  .form-button {
-    text-align: center; }
 
   .signin-form {
     order: 1;
@@ -464,5 +462,20 @@ label.valid {
   .social-label {
     margin-right: 0px;
     margin-bottom: 10px; } }
+/* Error message styling */
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top:2px; /* Space between the input field and the error message */
+ 
+  position:static; /* Absolute position within the form group */
+  top: 100%; /* Place the error message directly below the input field */
+  left: 0;
+  width: 100%; /* Make sure the error message spans the entire width */
+  font-weight: 500; /* Optionally bold the text */
+}
+
+/* Adjust positioning if using form groups */
 
 

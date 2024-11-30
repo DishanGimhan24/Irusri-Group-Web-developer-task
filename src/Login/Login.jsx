@@ -1,95 +1,142 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Login.css";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-
-
+import { login } from "../Authantications/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
+  // Formik setup
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email").required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values) => {
+      // Retrieve stored data
+      const storedData = JSON.parse(localStorage.getItem("formData"));
 
+      // Check if credentials are valid
+      if (storedData && storedData.email === values.email && storedData.password === values.password) {
+        // Successful login
+        dispatch(login(values));
+        navigate("/");
+      } else {
+        alert("Invalid email or password");
+      }
+    },
+  });
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
 
   return (
     <div>
-      <section class="sign-in">
-        <div class="container">
-          <div class="signin-content">
-            <div class="signin-image">
+      <section className="sign-in">
+        <div className="container">
+          <div className="signin-content">
+            <div className="signin-image">
               <figure>
-                <img src="https://as2.ftcdn.net/v2/jpg/08/50/56/57/1000_F_850565706_UTcN7ZvOyBAT4VhchfUIfQYhOS9UKrPS.jpg" alt="sing up image" />
+                <img src="https://as2.ftcdn.net/v2/jpg/08/50/56/57/1000_F_850565706_UTcN7ZvOyBAT4VhchfUIfQYhOS9UKrPS.jpg" alt="sign up image" />
               </figure>
-              <a href="#" class="signup-image-link">
+              <Link to="/register" className="signup-image-link">
                 Create an account
-              </a>
+              </Link>
             </div>
 
-            <div class="signin-form">
-              <h2 class="form-title">Sign up</h2>
-              <form method="POST" class="register-form" id="login-form">
-                <div class="form-group">
-                  <label for="your_name">
-                    <i class="zmdi zmdi-account material-icons-name"></i>
+            <div className="signin-form">
+              <h2 className="form-title">Login</h2>
+              <form onSubmit={formik.handleSubmit} className="register-form" id="login-form">
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <i className="zmdi zmdi-account material-icons-name"></i>
                   </label>
                   <input
-                    type="text"
-                    name="your_name"
-                    id="your_name"
-                    placeholder="Your Name"
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeholder="Email"
                   />
+                  {formik.touched.email && formik.errors.email && (
+                    <div style={{ color: "red" }}>{formik.errors.email}</div>
+                  )}
                 </div>
-                <div class="form-group">
-                  <label for="your_pass">
-                    <i class="zmdi zmdi-lock"></i>
+                <div className="form-group">
+                  <label htmlFor="password">
+                    <i className="zmdi zmdi-lock"></i>
                   </label>
                   <input
                     type="password"
-                    name="your_pass"
-                    id="your_pass"
+                    name="password"
+                    id="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     placeholder="Password"
                   />
+                  {formik.touched.password && formik.errors.password && (
+                    <div style={{ color: "red" }}>{formik.errors.password}</div>
+                  )}
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                   <input
                     type="checkbox"
                     name="remember-me"
                     id="remember-me"
-                    class="agree-term"
+                    className="agree-term"
                   />
-                  <label for="remember-me" class="label-agree-term">
+                  <label htmlFor="remember-me" className="label-agree-term">
                     <span>
                       <span></span>
                     </span>
                     Remember me
                   </label>
                 </div>
-                <div class="form-group form-button">
+                <div className="form-group form-button">
                   <input
                     type="submit"
                     name="signin"
                     id="signin"
-                    class="form-submit"
+                    className="form-submit"
                     value="Log in"
                   />
                 </div>
               </form>
-              <div class="social-login">
-                <span class="social-label">Or login with</span>
-                <ul class="socials">
+              <div className="social-login">
+                <span className="social-label">Or login with</span>
+                <ul className="socials">
                   <li>
                     <a href="#">
-                      <i class="display-flex-center zmdi zmdi-facebook"><FacebookIcon /></i>
+                      <i className="display-flex-center zmdi zmdi-facebook"><FacebookIcon /></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="display-flex-center zmdi zmdi-twitter"><TwitterIcon /></i>
+                      <i className="display-flex-center zmdi zmdi-twitter"><TwitterIcon /></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="display-flex-center zmdi zmdi-google"><YouTubeIcon/></i>
+                      <i className="display-flex-center zmdi zmdi-google"><YouTubeIcon /></i>
                     </a>
                   </li>
                 </ul>
@@ -101,4 +148,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

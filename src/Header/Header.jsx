@@ -1,8 +1,22 @@
 import React from "react";
 import "./Header.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../Authantications/authSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    // Dispatch logout action
+    dispatch(logout());
+    // Clear localStorage (optional)
+    localStorage.removeItem("authToken");
+    // Navigate to login page
+    navigate("/login");
+  };
     
   return (
     <div >
@@ -42,10 +56,10 @@ const Header = () => {
                       />
                     </div>
                     <div>
-                      <a href="#">Register</a>
+                      <a href="/register">Register</a>
                     </div>
                     <div>
-                      <a href="#">Sign in</a>
+                    <a href="#" onClick={handleSignOut}>Sign Out</a>
                     </div>
                   </div>
                 </div>
@@ -76,46 +90,7 @@ const Header = () => {
                           class="header_search_input"
                           placeholder="Search for products..."
                         />
-                        <div class="custom_dropdown">
-                          <div class="custom_dropdown_list">
-                            <span class="custom_dropdown_placeholder clc">
-                              All Categories
-                            </span>
-                            <i class="fas fa-chevron-down"></i>
-                            <ul class="custom_list clc">
-                              <li>
-                                <a class="clc" href="#">
-                                  All Categories
-                                </a>
-                              </li>
-                              <li>
-                                <a class="clc" href="#">
-                                  Computers
-                                </a>
-                              </li>
-                              <li>
-                                <a class="clc" href="#">
-                                  Laptops
-                                </a>
-                              </li>
-                              <li>
-                                <a class="clc" href="#">
-                                  Cameras
-                                </a>
-                              </li>
-                              <li>
-                                <a class="clc" href="#">
-                                  Hardware
-                                </a>
-                              </li>
-                              <li>
-                                <a class="clc" href="#">
-                                  Smartphones
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                       
                         <button
                           type="submit"
                           class="header_search_button trans_300"
@@ -162,7 +137,7 @@ const Header = () => {
                       </div>
                       <div class="cart_content">
                         <div class="cart_text">
-                          <a href="#">Cart</a>
+                          <a href="/cart">Cart</a>
                         </div>
                         <div class="cart_price">$185</div>
                       </div>
