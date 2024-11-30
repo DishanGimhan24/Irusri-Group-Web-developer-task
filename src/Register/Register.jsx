@@ -10,17 +10,32 @@ const Register = () => {
         pass: "",
       });
 
+
+const handleSubmit = (e) => {
+        e.preventDefault();
+        // Save formData to localStorage
+        localStorage.setItem("formData", JSON.stringify(formData));
+        // Optionally, you could reset the form or provide feedback
+        console.log("Form submitted:", formData);
+        alert("Registration successful!");
+      };
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
       
 
     
   return (
     <div>
       <section class="signup">
-        <div class="container">
+  
           <div class="signup-content">
             <div class="signup-form">
               <h2 class="form-title">Sign up</h2>
-              <form method="POST" class="register-form" id="register-form">
+              <form method="POST" class="register-form" id="register-form" onSubmit={handleSubmit}>
                 <div class="form-group">
                   <label for="name">
                     <i class="zmdi zmdi-account material-icons-name"></i>
@@ -28,8 +43,10 @@ const Register = () => {
                   <input
                     type="text"
                     name="name"
+                    value={formData.name}
                     id="name"
                     placeholder="Your Name"
+                    onChange={handleChange}
                   />
                 </div>
                 <div class="form-group">
@@ -39,8 +56,10 @@ const Register = () => {
                   <input
                     type="email"
                     name="email"
+                    value={formData.email}
                     id="email"
                     placeholder="Your Email"
+                    onChange={handleChange}
                   />
                 </div>
                 <div class="form-group">
@@ -51,7 +70,9 @@ const Register = () => {
                     type="password"
                     name="pass"
                     id="pass"
+                    value={formData.pass}
                     placeholder="Password"
+                    onChange={handleChange}
                   />
                 </div>
                 <div class="form-group">
@@ -76,9 +97,10 @@ const Register = () => {
                     <span>
                       <span></span>
                     </span>
-                    I agree all statements in{" "}
+                    I agree all statements in{" "} Terms of service
+                    <br/>
                     <a href="#" class="term-service">
-                      Terms of service
+                      
                     </a>
                   </label>
                 </div>
@@ -106,7 +128,7 @@ const Register = () => {
               </a>
             </div>
           </div>
-        </div>
+       
       </section>
     </div>
   );
