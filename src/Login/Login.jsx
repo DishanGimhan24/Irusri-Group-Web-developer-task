@@ -56,7 +56,7 @@ const Login = () => {
                 <img src="https://as2.ftcdn.net/v2/jpg/08/50/56/57/1000_F_850565706_UTcN7ZvOyBAT4VhchfUIfQYhOS9UKrPS.jpg" alt="sign up image" />
               </figure>
               <Link to="/register" className="signup-image-link">
-                Create an account
+                <h4>Create an account</h4>
               </Link>
             </div>
 

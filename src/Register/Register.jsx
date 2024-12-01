@@ -40,6 +40,7 @@ const Register = () => {
                 email: "",
                 password: "",
                 confirmPassword: "",
+                agreeTerm: false,
               }}
               validationSchema={SignupSchema}
               onSubmit={handleSubmit}
@@ -101,21 +102,19 @@ const Register = () => {
                   <div className="form-group">
                     <Field
                       type="checkbox"
-                      name="agree-term"
+                      name="agreeTerm"
+                      id="agree-term"
                       className="agree-term"
                     />
                     <label htmlFor="agree-term" className="label-agree-term">
-                     
-                      <br/>
-                      <a href="#" className="term-service">
-                        Terms of service
-                      </a>
+                      I agree to the terms and conditions
                     </label>
+                    <ErrorMessage name="agreeTerm" component="div" className="error" />
                   </div>
-                  <div className="btn btn-primary">
-                    <button class="btn btn-primary"
+                  <div className="form-group">
+                    <button
                       type="submit"
-                      
+                      className="btn btn-primary"
                       disabled={isSubmitting}
                     >
                       Register
@@ -127,14 +126,15 @@ const Register = () => {
           </div>
           <div className="signup-img">
             <figure>
-              <img 
+              <img
                 src="https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
                 alt="sign up"
                 style={{ height: "400px", width: "400px" }}
               />
             </figure>
             <a href="/login" className="signup-image-link">
-              I  already have a Account            </a>
+              <h4>I already have an Account</h4>
+            </a>
           </div>
         </div>
       </section>
