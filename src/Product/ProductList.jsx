@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import './ProductList.css';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Header from '../Header/Header';
-import { SearchContext } from "../SearchContext";
-
+import { SearchContext } from "../Context/SearchContext";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 const ProductList = () => {
     const { searchTerm } = useContext(SearchContext);
 
@@ -25,39 +25,49 @@ const ProductList = () => {
       );
 
     const addToCart = (product) => {
-        // Retrieve the cart from localStorage or default to an empty array if not found
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-      
-        // Check if the product is already in the cart
         const existingProduct = storedCart.find((item) => item.id === product.id);
-      
         if (existingProduct) {
-          // If the product is already in the cart, show an alert
-          alert(`${product.name} is already in the cart!`);
+            alert(`${product.name} is already in the cart!`);
         } else {
-          // If the product is not in the cart, add it to the cart
-
-          const productWithDefaultQuantity = { ...product, quantity: 1 };
-
-          const newCart = [...storedCart,productWithDefaultQuantity];
-      
-          // Update the state and save the new cart to localStorage
-          setCart(newCart);
-          localStorage.setItem('cart', JSON.stringify(newCart));
-      
-          alert(`${product.name} added to cart!`);
+            const productWithDefaultQuantity = { ...product, quantity: 1 };
+            const newCart = [...storedCart,productWithDefaultQuantity];
+            setCart(newCart);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            alert(`${product.name} added to cart!`);
         }
       };
+
+      
+      const addToWishlist = (product) => {
+        const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const existingProduct = storedWishlist.find((item) => item.id === product.id);
+        if (existingProduct) {
+        existingProduct.quantity += 1;
+        localStorage.setItem('wishlist', JSON.stringify(storedWishlist));
+        alert(` ${product.name} is already in the wishlist`);
+        } else {
+            const productWithDefaultQuantity = { ...product, quantity: 1 };
+            const newWishlist = [...storedWishlist, productWithDefaultQuantity];
+            localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+            
+            alert(`${product.name} added to wishlist!`);
+            window.location.reload();
+        }
+      };
+        
+
+
+
 
     
     
     return (
-        <div>
-           <Header/>
-            <section style={{ backgroundColor: '#eee' }}>
-                <div className="py-5">
-                    <div className="row justify-content-center mb-3">
-                        {filteredProducts.map((product) => (
+    <div>
+        <Header/>
+        <section style={{ backgroundColor: '#eee' }}>
+            <div className="py-5"><div className="row justify-content-center mb-3">
+{filteredProducts.map((product) => (
     <div key={product.id} className="col-md-12 col-xl-10">
       <div className="card shadow-0 border rounded-3 mb-4">
         <div className="card-body">
@@ -100,17 +110,24 @@ const ProductList = () => {
                 </span>
               </div>
               <h6 className="text-success">Free shipping</h6>
-              <div className="d-flex flex-column mt-4">
+              <div className="d-flex flex-column mt-4 gap-md-4 custom-gap">
                 <button
                   onClick={() => addToCart(product)}
                   data-mdb-button-init
                   data-mdb-ripple-init
-                  className="btn btn-primary btn-lg"
+                  className="button-70"
                   type="button"
                 >
                   <AddShoppingCartIcon />
-                  Add to cart
+                  Add cart
                 </button>
+                <button 
+                 onClick={() => addToWishlist(product)}
+                data-mdb-button-init
+                  data-mdb-ripple-init
+                  className="button-70"
+                  type="button"><FavoriteBorderIcon/>AddWishList</button>
+               
               </div>
             </div>
           </div>

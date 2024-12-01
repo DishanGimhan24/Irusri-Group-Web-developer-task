@@ -6,10 +6,12 @@ import Header from "./Header/Header";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import ProtectedRoute from "./Authantications/ProtectedRoute";
-import { SearchProvider } from "./SearchContext";
+import { SearchProvider } from "./Context/SearchContext";
+import { WishlistProvider } from "./Context/WishlistContext";
 
 function App() {
   return (
+    <WishlistProvider>
     <SearchProvider>
     <BrowserRouter> 
       <Routes> 
@@ -24,6 +26,7 @@ function App() {
       </Routes>
     </BrowserRouter>
     </SearchProvider>
+    </WishlistProvider>
   );
 }
 

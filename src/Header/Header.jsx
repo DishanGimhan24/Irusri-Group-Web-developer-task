@@ -1,17 +1,16 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Header.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../Authantications/authSlice";
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../SearchContext";
+import { SearchContext } from "../Context/SearchContext";
+import { WishlistContext } from "../Context/WishlistContext";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
-
-  console.log("Search Term:", searchTerm);
-
+  const { wishlistCount, setWishlistCount } = useContext(WishlistContext);
 
   const handleSignOut = () => {
     // Dispatch logout action
@@ -21,10 +20,9 @@ const Header = () => {
     // Navigate to login page
     navigate("/login");
   };
-    
   return (
-    <div >
-        <header class="header">
+    <div>
+      <header class="header">
         <div class="top_bar">
           <div class="container" id="container">
             <div class="row">
@@ -45,13 +43,10 @@ const Header = () => {
                       alt=""
                     />
                   </div>
-                  <a href="mailto:fastsales@gmail.com">
-                    kdgimhan@gmail.com
-                  </a>
+                  <a href="mailto:fastsales@gmail.com">kdgimhan@gmail.com</a>
                 </div>
                 <div class="top_bar_content ml-auto">
-                  <div class="top_bar_menu">
-                  </div>
+                  <div class="top_bar_menu"></div>
                   <div class="top_bar_user">
                     <div class="user_icon">
                       <img
@@ -63,7 +58,9 @@ const Header = () => {
                       <a href="/register">Register</a>
                     </div>
                     <div>
-                    <a href="#" onClick={handleSignOut}>Sign Out</a>
+                      <a href="#" onClick={handleSignOut}>
+                        Sign Out
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -94,10 +91,9 @@ const Header = () => {
                           class="header_search_input"
                           placeholder="Search for products..."
                           value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-
+                          onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                       
+
                         <button
                           type="submit"
                           class="header_search_button trans_300"
@@ -123,11 +119,40 @@ const Header = () => {
                         alt=""
                       />
                     </div>
-                    <div class="wishlist_content">
-                      <div class="wishlist_text">
-                        <a href="#">Wishlist</a>
+                    <div className="wishlist_content dropdown">
+                      <div className="wishlist_text">
+                        <a
+                          className="dropdown-toggle"
+                          href="#"
+                          id="wishlistDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Wishlist
+                        </a>
+                        <div className="wishlist_count">{wishlistCount}</div>
                       </div>
-                      <div class="wishlist_count">10</div>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby="wishlistDropdown"
+                      >
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            View Wishlist
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Clear Wishlist
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Go to Cart
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
 
@@ -156,8 +181,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-
-      
     </div>
   );
 };
