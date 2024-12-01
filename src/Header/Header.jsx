@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../Authantications/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import { SearchContext } from "../SearchContext";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+
+  console.log("Search Term:", searchTerm);
+
 
   const handleSignOut = () => {
     // Dispatch logout action
@@ -89,6 +93,9 @@ const Header = () => {
                           required="required"
                           class="header_search_input"
                           placeholder="Search for products..."
+                          value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+
                         />
                        
                         <button
@@ -141,46 +148,6 @@ const Header = () => {
                         </div>
                         <div class="cart_price">$185</div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="page_menu">
-          <div class="container">
-            <div class="row">
-              <div class="col">
-                <div class="page_menu_content">
-                  <div class="page_menu_search">
-                    <form action="#">
-                      <input
-                        type="search"
-                        required="required"
-                        class="page_menu_search_input"
-                        placeholder="Search for products..."
-                      />
-                    </form>
-                  </div>
-
-                 
-
-                  <div class="menu_contact">
-                    <div class="menu_contact_item">
-                      <div class="menu_contact_icon">
-                        <img src="images/phone_white.png" alt="" />
-                      </div>
-                      +38 068 005 3570
-                    </div>
-                    <div class="menu_contact_item">
-                      <div class="menu_contact_icon">
-                        <img src="images/mail_white.png" alt="" />
-                      </div>
-                      <a href="mailto:fastsales@gmail.com">
-                        fastsales@gmail.com
-                      </a>
                     </div>
                   </div>
                 </div>

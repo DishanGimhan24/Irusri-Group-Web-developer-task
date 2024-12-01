@@ -6,9 +6,11 @@ import Header from "./Header/Header";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import ProtectedRoute from "./Authantications/ProtectedRoute";
+import { SearchProvider } from "./SearchContext";
 
 function App() {
   return (
+    <SearchProvider>
     <BrowserRouter> 
       <Routes> 
       
@@ -21,6 +23,7 @@ function App() {
         <Route path= "/register" element={<Register/>} />
       </Routes>
     </BrowserRouter>
+    </SearchProvider>
   );
 }
 

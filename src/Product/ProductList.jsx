@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from "react";
 import './ProductList.css';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Header from '../Header/Header';
-
+import { SearchContext } from "../SearchContext";
 
 const ProductList = () => {
+    const { searchTerm } = useContext(SearchContext);
 
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
@@ -18,6 +19,10 @@ const ProductList = () => {
         { id: 7, name: " Mechanical Gaming Keyboard", price: "40.00", description: "The best in its class, offering great value. With its unique features and superior performance, this product is a top choice for those seeking reliability and excellence.", image: "https://www.gamestreet.lk/images/products/5069.jpg" },
         { id: 8, name: "AMD Ryzen 7", price: "55.00", description: "A premium choice for you with exquisite features. This product offers outstanding quality and performance, making it the perfect choice for those who value the finer things in life.", image:"https://www.gamestreet.lk/images/products/3785.jpg" },
     ];
+
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
     const addToCart = (product) => {
         // Retrieve the cart from localStorage or default to an empty array if not found
@@ -43,7 +48,6 @@ const ProductList = () => {
           alert(`${product.name} added to cart!`);
         }
       };
-      ;
 
     
     
@@ -53,65 +57,68 @@ const ProductList = () => {
             <section style={{ backgroundColor: '#eee' }}>
                 <div className="py-5">
                     <div className="row justify-content-center mb-3">
-                        {products.map(product => (
-                            <div key={product.id} className="col-md-12 col-xl-10">
-                                <div className="card shadow-0 border rounded-3 mb-4">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                                <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                                                    <img
-                                                        src={product.image}
-                                                        className="w-100"
-                                                        alt={product.name}
-                                                    />
-                                                    <a href="#!">
-                                                        <div className="hover-overlay">
-                                                            <div
-                                                                className="mask"
-                                                                style={{ backgroundColor: 'rgba(253, 253, 253, 0.15)' }}
-                                                            ></div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 col-lg-6 col-xl-6 pt-md-5 pb-5">
-                                                {/* Product Name with larger font size */}
-                                                <h5 style={{ fontSize: '1.75rem', fontWeight: 'bold',}}>
-                                                    {product.name}
-                                                </h5>
+                        {filteredProducts.map((product) => (
+    <div key={product.id} className="col-md-12 col-xl-10">
+      <div className="card shadow-0 border rounded-3 mb-4">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+              <div className="bg-image hover-zoom ripple rounded ripple-surface">
+                <img
+                  src={product.image}
+                  className="w-100"
+                  alt={product.name}
+                />
+                <a href="#!">
+                  <div className="hover-overlay">
+                    <div
+                      className="mask"
+                      style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}
+                    ></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div className="col-md-6 col-lg-6 col-xl-6 pt-md-5 pb-5">
+              <h5
+                style={{ fontSize: "1.75rem", fontWeight: "bold" }}
+              >
+                {product.name}
+              </h5>
+              <div
+                className="mt-1 mb-0"
+                style={{ fontSize: "1.125rem", padding: "10px 0" }}
+              >
+                {product.description}
+              </div>
+            </div>
+            <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start p-xl-5">
+              <div className="d-flex flex-row align-items-center mb-1">
+                <h2 className="mb-1 me-1">${product.price}</h2>
+                <span className="text-danger">
+                  <s>$20.99</s>
+                </span>
+              </div>
+              <h6 className="text-success">Free shipping</h6>
+              <div className="d-flex flex-column mt-4">
+                <button
+                  onClick={() => addToCart(product)}
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  className="btn btn-primary btn-lg"
+                  type="button"
+                >
+                  <AddShoppingCartIcon />
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
 
-                                                {/* Product Description with larger font size and padding */}
-                                                <div className="mt-1 mb-0" style={{ fontSize: '1.125rem', padding: '10px 0' }}>
-                                                    {product.description}
-                                                </div>
-
-                                            </div>
-                                            <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start p-xl-5">
-                                                <div className="d-flex flex-row align-items-center mb-1">
-                                                    <h2 className="mb-1 me-1">${product.price}</h2>
-                                                    <span className="text-danger">
-                                                        <s>$20.99</s>
-                                                    </span>
-                                                </div>
-                                                <h6 className="text-success">Free shipping</h6>
-                                                <div className="d-flex flex-column mt-4">
-                                                    <button onClick={()=> addToCart(product)}
-                                                        data-mdb-button-init
-                                                        data-mdb-ripple-init
-                                                        className="btn btn-primary btn-lg"
-                                                        type="button"
-                                                    ><AddShoppingCartIcon/>
-                                                        Add to cart
-                                                    </button>
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </section>
