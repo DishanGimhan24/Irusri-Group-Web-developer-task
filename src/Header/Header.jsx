@@ -11,6 +11,8 @@ const Header = () => {
   const navigate = useNavigate();
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
   const { wishlistCount, setWishlistCount } = useContext(WishlistContext);
+  const [cart, setCart] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
 
   const handleSignOut = () => {
     // Dispatch logout action
@@ -20,6 +22,13 @@ const Header = () => {
     // Navigate to login page
     navigate("/login");
   };
+
+
+  useEffect(() => {
+    const savedCartCount = JSON.parse(localStorage.getItem("cartCount")) || 0;
+    setCartCount(savedCartCount);
+  }, []);
+
   return (
     <div>
       <header class="header">
@@ -164,7 +173,7 @@ const Header = () => {
                           alt=""
                         />
                         <div class="cart_count">
-                          <span>3</span>
+                          <span>{cartCount}</span>
                         </div>
                       </div>
                       <div class="cart_content">

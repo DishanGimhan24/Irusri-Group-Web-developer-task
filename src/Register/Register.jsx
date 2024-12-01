@@ -2,25 +2,30 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Register.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  // Validation schema using Yup
+
+  const navigate = useNavigate();
+  
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
+      
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
   });
 
   const handleSubmit = (values) => {
-    // Save form data to localStorage
     localStorage.setItem("formData", JSON.stringify(values));
     console.log("Form submitted:", values);
     alert("Registration successful!");
+    navigate("/login");
+ 
   };
 
   return (
@@ -100,7 +105,7 @@ const Register = () => {
                       className="agree-term"
                     />
                     <label htmlFor="agree-term" className="label-agree-term">
-                      I agree to all statements in{" "}
+                     
                       <br/>
                       <a href="#" className="term-service">
                         Terms of service
@@ -129,8 +134,7 @@ const Register = () => {
               />
             </figure>
             <a href="/login" className="signup-image-link">
-              I am already a member
-            </a>
+              I  already have a Account            </a>
           </div>
         </div>
       </section>

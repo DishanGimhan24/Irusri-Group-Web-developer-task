@@ -34,7 +34,10 @@ const ProductList = () => {
             const newCart = [...storedCart,productWithDefaultQuantity];
             setCart(newCart);
             localStorage.setItem('cart', JSON.stringify(newCart));
+            const cartCount = newCart.length; 
+            localStorage.setItem("cartCount", JSON.stringify(cartCount));
             alert(`${product.name} added to cart!`);
+            window.location.reload();
         }
       };
 

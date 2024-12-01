@@ -8,8 +8,8 @@ const Cart = () => {
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || []; // Retrieve saved cart or fallback to empty array
     setCart(savedCart); // Update the state with the retrieved cart data
-  }, []); // Runs only once when the component mounts
-
+  }, []); 
+  
   const handleQuantityChange = (id, change) => {
     const updatedCart = cart.map((product) =>
       product.id === id
