@@ -180,7 +180,7 @@ const Header = () => {
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Categories
+      {selectedCategory ? selectedCategory : "Categories"}
     </button>
     <ul
       className="dropdown-menu"
