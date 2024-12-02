@@ -18,7 +18,7 @@ const Header = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const { categories1, selectedCategory, setSelectedCategory } = useCategories();
-
+  const [totalPrice, setTotalPrice] = useState(0);
   const handleCategorySelect = (category) => {
     setSelectedCategory(category); // Update selected category
   };
@@ -35,7 +35,8 @@ const Header = () => {
 
   useEffect(() => {
     // Get the 'cart' object from localStorage
-    const savedCart = JSON.parse(localStorage.getItem("cart"));
+    
+    const savedCart = JSON.parse(localStorage.getItem("products"));
     setCart(savedCart);
 
     // Check if 'cart' exists and if it has the 'category' key
@@ -52,7 +53,10 @@ const Header = () => {
     }
   }, []);
 
-  //
+
+  
+
+
   useEffect(() => {
     const savedCartCount = JSON.parse(localStorage.getItem("cartCount")) || 0;
     setCartCount(savedCartCount);
@@ -78,8 +82,17 @@ const Header = () => {
     setWishlistItems(updatedWishlist); // Update the UI immediately
     window.location.reload();
   };
+  
+  useEffect(() => {
+    // Fetch cart from localStorage
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    // Calculate the total price
+    const calculatedTotal = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
 
-  const subtotal = (cart || []).reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+    // Update state with the total price
+    setTotalPrice(calculatedTotal);
+  }, []); // Runs once when the component mounts
 
   return (
     <div>
@@ -180,12 +193,25 @@ const Header = () => {
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      {selectedCategory ? selectedCategory : "Categories"}
+      {selectedCategory ? selectedCategory : "All Categories"}
     </button>
     <ul
       className="dropdown-menu"
       aria-labelledby="dropdownMenuButton"
     >
+   <li>
+      <a
+        className="dropdown-item"
+        href="#"
+        onClick={() => {
+          setSelectedCategory(null);
+          window.location.reload(); // Refresh the page
+        }}
+      >
+       All Categories
+      </a>
+    </li>
+      
       {categories.length > 0 ? (
         categories.map((category, index) => (
           <li key={index}>
@@ -267,11 +293,11 @@ const Header = () => {
                           <span>{cartCount}</span>
                         </div>
                       </div>
-                      <div className="cart_content">
+                      <div className="cart_content" style={{width:"25px"}}>
                         <div className="cart_text">
                           <a href="/cart">Cart</a>
                         </div>
-                        <div className="cart_price">${subtotal.toFixed(2)}</div>
+                        <div className="cart_price">${totalPrice.toFixed(2)}</div>
                       </div>
                     </div>
                   </div>

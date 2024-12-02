@@ -9,19 +9,33 @@ const Register = () => {
   const navigate = useNavigate();
   
   const SignupSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    name: Yup.string()
+      .required("Name is required")
+      .test('unique-name', 'Name already exists', (value) => {
+        if (!value) return false; 
+        const storedData = Object.keys(localStorage).map((key) => JSON.parse(localStorage.getItem(key)));
+        return !storedData.some((formData) => formData.name === value); // Check if name exists
+      }),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email is required")
+      .test('unique-email', 'Email already exists', (value) => {
+        if (!value) return false; 
+         const storedData = Object.keys(localStorage).map((key) => JSON.parse(localStorage.getItem(key)));
+        return !storedData.some((formData) => formData.email === value); 
+      }),
     password: Yup.string()
-    .min(8, 'Password must be 8 characters long')
-    .matches(/[0-9]/, 'Password requires a number')
-    .matches(/[a-z]/, 'Password requires a lowercase letter')
-    .matches(/[A-Z]/, 'Password requires an uppercase letter')
-    .matches(/[^\w]/, 'Password requires a symbol'),
-      
+      .min(8, 'Password must be 8 characters long')
+      .matches(/[0-9]/, 'Password requires a number')
+      .matches(/[a-z]/, 'Password requires a lowercase letter')
+      .matches(/[A-Z]/, 'Password requires an uppercase letter')
+      .matches(/[^\w]/, 'Password requires a symbol')
+      .required("Password is required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
   });
+  
 
   const handleSubmit = (values) => {
     localStorage.setItem("formData", JSON.stringify(values));

@@ -101,7 +101,7 @@ const ProductList = () => {
       price: "70.00",
       description:
         "A top-tier smartphone with the latest features, fast performance, and a sleek design. This is the go-to choice for anyone looking for cutting-edge technology.",
-      image: "https://www.example.com/smartphone.jpg",
+      image: "https://img.freepik.com/premium-vector/smartphone-mock-up-realistic-design_23-2148358424.jpg?w=826",
       category: "Electronics",
     },
     {
@@ -110,7 +110,7 @@ const ProductList = () => {
       price: "15.00",
       description:
         "High-quality wireless earbuds offering superior sound quality, comfort, and long battery life. Perfect for music lovers and busy professionals.",
-      image: "https://www.example.com/wireless-earbuds.jpg",
+      image: "https://cdn-eshop.jo.zain.com/images/thumbs/0067638_awei-t26-pro-tws-bluetooth-earphone.webp",
       category: "Accessories",
     },
     {
@@ -119,7 +119,7 @@ const ProductList = () => {
       price: "30.00",
       description:
         "Portable Bluetooth speaker with excellent sound quality and a long battery life, designed to deliver immersive music experiences wherever you go.",
-      image: "https://www.example.com/bluetooth-speaker.jpg",
+      image: "https://m.media-amazon.com/images/I/718yxonHN8L.__AC_SY300_SX300_QL70_FMwebp_.jpg",
       category: "Peripherals",
     },
     {
@@ -128,10 +128,17 @@ const ProductList = () => {
       price: "40.00",
       description:
         "A reliable external hard drive for storing large files and backups. With fast data transfer speeds and durable build quality, it's the ideal storage solution.",
-      image: "https://www.example.com/external-hard-drive.jpg",
+      image: "https://mercurycomputerslimited.com/wp-content/uploads/2021/03/Transcend-StoreJet-25M3.jpg",
       category: "Accessories",
     },
   ];
+
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem("products"));
+    if (!storedProducts) {
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
 
   // Filter products by search term and category
   const filteredProducts1 = selectedCategory

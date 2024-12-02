@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || []; // Retrieve saved cart or fallback to empty array
@@ -19,6 +20,7 @@ const Cart = () => {
           }
         : product
     );
+  
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart)); // Save to local storage
   };
@@ -26,10 +28,35 @@ const Cart = () => {
   const handleRemoveFromCart = (idToRemove) => {
     const updatedCart = cart.filter((product) => product.id !== idToRemove);
     setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Save to local storage
+    localStorage.setItem("cart", JSON.stringify(updatedCart)); 
+  };
+  
+
+  const clearCart = () => {
+    setCart([]); // Clear the cart state
+    localStorage.removeItem("cart"); // Remove the cart data from local storage
+   
+    localStorage.setItem("cartCount", JSON.stringify(0));
+    
+
+    window.location.reload(); 
+
   };
 
-  const subtotal = cart.reduce((total,item)=>total+ parseFloat(item.price)*item.quantity,0)
+
+
+  
+  useEffect(() => {
+    const calculatedSubtotal = cart.reduce(
+      (total, item) => total + parseFloat(item.price) * item.quantity,
+      0
+    );
+    setSubtotal(calculatedSubtotal); // Update the subtotal whenever the cart changes
+  }, [cart]); // Dependency array ensures this runs whenever 'cart' changes
+  
+  useEffect(() => {
+    localStorage.setItem("subtotal", subtotal.toFixed(2)); // Save as a string
+  }, [subtotal]);
 
   return (
     <div>
@@ -43,7 +70,7 @@ const Cart = () => {
                 <th className="text-center">Quantity</th>
                 <th className="text-center">Subtotal</th>
                 <th className="text-center">
-                  <a className="btn btn-sm btn-outline-danger" href="#">
+                  <a className="btn btn-sm btn-outline-danger" href="#"   onClick={clearCart} >
                     Clear Cart
                   </a>
                 </th>
