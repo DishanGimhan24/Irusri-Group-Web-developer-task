@@ -32,7 +32,7 @@ const Login = () => {
       if (storedData && storedData.email === values.email && storedData.password === values.password) {
         // Successful login
         dispatch(login(values));
-        navigate("/");
+        navigate("/home");
       } else {
         alert("Invalid email or password");
       }

@@ -135,7 +135,7 @@ const Cart = () => {
         </div>
         <div className="shopping-cart-footer">
           <div className="column">
-            <a className="btn btn-outline-secondary" href="/">
+            <a className="btn btn-outline-secondary" href="/home">
               <i className="icon-arrow-left"></i>&nbsp;Back to Shopping
             </a>
           </div>
