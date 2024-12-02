@@ -135,7 +135,7 @@ const Register = () => {
                 style={{ height: "400px", width: "400px" }}
               />
             </figure>
-            <a href="/" className="signup-image-link">
+            <a href="/login" className="signup-image-link">
               <h4>I already have an Account</h4>
             </a>
           </div>
