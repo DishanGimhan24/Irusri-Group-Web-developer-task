@@ -8,9 +8,11 @@ import Login from "./Login/Login";
 import ProtectedRoute from "./Authantications/ProtectedRoute";
 import { SearchProvider } from "./Context/SearchContext";
 import { WishlistProvider } from "./Context/WishlistContext";
+import { CategoriesProvider } from "./Context/CategoriesContext";
 
 function App() {
   return (
+    <CategoriesProvider>
     <WishlistProvider>
     <SearchProvider>
     <BrowserRouter> 
@@ -27,6 +29,7 @@ function App() {
     </BrowserRouter>
     </SearchProvider>
     </WishlistProvider>
+    </CategoriesProvider>
   );
 }
 

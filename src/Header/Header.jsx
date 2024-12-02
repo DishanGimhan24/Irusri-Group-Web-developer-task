@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../Context/SearchContext";
 import { WishlistContext } from "../Context/WishlistContext";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useCategories } from "../Context/CategoriesContext";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,11 @@ const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [categories, setCategories] = useState([]);
+  const { categories1, selectedCategory, setSelectedCategory } = useCategories();
 
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category); // Update selected category
+  };
 
 
   const handleSignOut = () => {
@@ -167,38 +172,39 @@ const Header = () => {
               <div className=" col-lg-3 col-9 order-lg-3 order-2 text-lg-left text-right">
                 {/* Dropdown next to search */}
                 <div className="header_dropdown ml-3">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      id="dropdownMenuButton"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Categories
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      {categories.length > 0 ? (
-                        categories.map((category, index) => (
-                          <li key={index}>
-                            <a className="dropdown-item" href="#">
-                              {category}
-                            </a>
-                          </li>
-                        ))
-                      ) : (
-                        <li>
-                          <a className="dropdown-item" href="#">
-                            No category found in cart.
-                          </a>
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
+  <div className="dropdown">
+    <button
+      className="btn btn-secondary dropdown-toggle"
+      type="button"
+      id="dropdownMenuButton"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      Categories
+    </button>
+    <ul
+      className="dropdown-menu"
+      aria-labelledby="dropdownMenuButton"
+    >
+      {categories.length > 0 ? (
+        categories.map((category, index) => (
+          <li key={index}>
+            <a className="dropdown-item" href="#" onClick={() => handleCategorySelect(category)}>
+              {category}
+            </a>
+          </li>
+        ))
+      ) : (
+        <li>
+          <a className="dropdown-item" href="#">
+            No categories found.
+          </a>
+        </li>
+      )}
+    </ul>
+  </div>
+</div>
+
               </div>
 
               <div className="col-lg-3 col-9 order-lg-3 order-2 text-lg-left text-right">
