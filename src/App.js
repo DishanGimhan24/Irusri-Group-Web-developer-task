@@ -18,7 +18,7 @@ function App() {
     <BrowserRouter> 
       <Routes> 
       
-        <Route path="/Home" element={<ProtectedRoute><ProductList /> </ProtectedRoute>} /> 
+        <Route path="/home" element={<ProtectedRoute><ProductList /> </ProtectedRoute>} /> 
         <Route path="/cart" element={<ProtectedRoute><Cart/></ProtectedRoute>} /> 
         <Route path="/header" element={<Header/>} />
        
