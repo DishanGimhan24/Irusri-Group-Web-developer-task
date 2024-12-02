@@ -27,7 +27,7 @@ const Register = () => {
     localStorage.setItem("formData", JSON.stringify(values));
     console.log("Form submitted:", values);
     alert("Registration successful!");
-    navigate("/login");
+    navigate("/");
  
   };
 
