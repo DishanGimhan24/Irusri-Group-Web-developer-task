@@ -7,7 +7,7 @@ const Cart = () => {
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || []; // Retrieve saved cart or fallback to empty array
-    setCart(savedCart); // Update the state with the retrieved cart data
+     setCart(savedCart);// Update the state with the retrieved cart data
   }, []); 
   
   const handleQuantityChange = (id, change) => {
@@ -142,7 +142,7 @@ const Cart = () => {
           <div className="column">
             <a
               className="btn btn-primary"
-              href="#"
+              href="http://localhost:3000/cart"
               data-toast=""
               data-toast-type="success"
               data-toast-position="topRight"

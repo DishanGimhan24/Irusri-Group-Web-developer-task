@@ -4,8 +4,13 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Header from '../Header/Header';
 import { SearchContext } from "../Context/SearchContext";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useCart } from "../Context/CartContext";
+
+
+
 const ProductList = () => {
     const { searchTerm } = useContext(SearchContext);
+    
 
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const products = [
@@ -14,20 +19,10 @@ const ProductList = () => {
         id: 1, name: "Monitor", price: "20.00",  description: "This is a great product that has many features and benefits for users. It is known for its durability and superior quality. People love this product because it provides excellent value for money and it is very reliable over time.", image: "https://i0.wp.com/www.winsoft.lk/wp-content/uploads/2023/06/monova-18.5-monitor.png?fit=486%2C486&ssl=1",category: "Computers"
       },
       { 
-        id: 2, 
-        name: "Laptop", 
-        price: "35.00", 
-        description: "Another amazing product with fantastic quality, suitable for a wide range of applications. This product stands out for its excellent craftsmanship and user-friendly design.", 
-        image: "https://i0.wp.com/www.winsoft.lk/wp-content/uploads/2023/10/ASUS-Vivobook-X1504V-Core-i5-13th-Gen-Laptop.png?fit=518%2C518&ssl=1",
-        category: "Computers"
+        id: 2, name: "Laptop", price: "35.00", description: "Another amazing product with fantastic quality, suitable for a wide range of applications. This product stands out for its excellent craftsmanship and user-friendly design.", image: "https://i0.wp.com/www.winsoft.lk/wp-content/uploads/2023/10/ASUS-Vivobook-X1504V-Core-i5-13th-Gen-Laptop.png?fit=518%2C518&ssl=1",category: "Computers"
       },
       { 
-        id: 8, 
-        name: "AMD Ryzen 7", 
-        price: "55.00", 
-        description: "A premium choice for you with exquisite features. This product offers outstanding quality and performance, making it the perfect choice for those who value the finer things in life.", 
-        image: "https://www.gamestreet.lk/images/products/3785.jpg", 
-        category: "Computers"
+       id: 8,  name: "AMD Ryzen 7", price: "55.00", description: "A premium choice for you with exquisite features. This product offers outstanding quality and performance, making it the perfect choice for those who value the finer things in life.", image: "https://www.gamestreet.lk/images/products/3785.jpg", category: "Computers"
       },
     
       // Accessories
@@ -148,9 +143,6 @@ const ProductList = () => {
             window.location.reload();
         }
       };
-        
-
-
 
 
     

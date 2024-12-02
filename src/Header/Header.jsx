@@ -5,7 +5,7 @@ import { logout } from "../Authantications/authSlice";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../Context/SearchContext";
 import { WishlistContext } from "../Context/WishlistContext";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,9 @@ const Header = () => {
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [wishlistItems, setWishlistItems] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+
 
   const handleSignOut = () => {
     // Dispatch logout action
@@ -25,6 +28,26 @@ const Header = () => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    // Get the 'cart' object from localStorage
+    const savedCart = JSON.parse(localStorage.getItem("cart"));
+    setCart(savedCart);
+
+    // Check if 'cart' exists and if it has the 'category' key
+    if (savedCart && savedCart.category) {
+      setCategories(savedCart.category);
+    }
+
+    if (savedCart && Array.isArray(savedCart)) {
+      // Extract unique categories
+      const uniqueCategories = [
+        ...new Set(savedCart.map((product) => product.category)),
+      ];
+      setCategories(uniqueCategories);
+    }
+  }, []);
+
+  //
   useEffect(() => {
     const savedCartCount = JSON.parse(localStorage.getItem("cartCount")) || 0;
     setCartCount(savedCartCount);
@@ -41,15 +64,17 @@ const Header = () => {
   }, []);
 
   const removeFromWishlist = (productId) => {
-    const storedWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    const updatedWishlist = storedWishlist.filter((item) => item.id !== productId);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const updatedWishlist = storedWishlist.filter(
+      (item) => item.id !== productId
+    );
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
 
-
-    setWishlistItems(updatedWishlist);  // Update the UI immediately
+    setWishlistItems(updatedWishlist); // Update the UI immediately
     window.location.reload();
-  
   };
+
+  const subtotal = cart.reduce((total,item)=>total+ parseFloat(item.price)*item.quantity,0)
 
   return (
     <div>
@@ -111,7 +136,7 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+              <div className="col-lg-4 col-12 order-lg-2 order-3 text-lg-left text-right">
                 <div className="header_search">
                   <div className="header_search_content">
                     <div className="header_search_form_container">
@@ -139,8 +164,44 @@ const Header = () => {
                   </div>
                 </div>
               </div>
+              <div className=" col-lg-3 col-9 order-lg-3 order-2 text-lg-left text-right">
+                {/* Dropdown next to search */}
+                <div className="header_dropdown ml-3">
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Categories
+                    </button>
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton"
+                    >
+                      {categories.length > 0 ? (
+                        categories.map((category, index) => (
+                          <li key={index}>
+                            <a className="dropdown-item" href="#">
+                              {category}
+                            </a>
+                          </li>
+                        ))
+                      ) : (
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            No category found in cart.
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-              <div className="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+              <div className="col-lg-3 col-9 order-lg-3 order-2 text-lg-left text-right">
                 <div className="wishlist_cart d-flex flex-row align-items-center justify-content-end">
                   <div className="wishlist d-flex flex-row align-items-center justify-content-end">
                     <div className="wishlist_icon">
@@ -170,7 +231,10 @@ const Header = () => {
                             wishlistItems.map((item) => (
                               <li key={item.id}>
                                 <a className="dropdown-item" href="#">
-                                <DeleteOutlineIcon onClick={() => removeFromWishlist(item.id)}/> {item.name}
+                                  <DeleteOutlineIcon
+                                    onClick={() => removeFromWishlist(item.id)}
+                                  />{" "}
+                                  {item.name}
                                 </a>
                               </li>
                             ))
@@ -201,7 +265,7 @@ const Header = () => {
                         <div className="cart_text">
                           <a href="/cart">Cart</a>
                         </div>
-                        <div className="cart_price">$185</div>
+                        <div className="cart_price">${subtotal.toFixed(2)}</div>
                       </div>
                     </div>
                   </div>
