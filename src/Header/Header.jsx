@@ -79,7 +79,7 @@ const Header = () => {
     window.location.reload();
   };
 
-  const subtotal = cart.reduce((total,item)=>total+ parseFloat(item.price)*item.quantity,0)
+  const subtotal = (cart || []).reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
 
   return (
     <div>
