@@ -30,7 +30,7 @@ const Header = () => {
     // Clear localStorage (optional)
     localStorage.removeItem("authToken");
     // Navigate to login page
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
