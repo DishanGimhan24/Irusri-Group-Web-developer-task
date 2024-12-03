@@ -23,8 +23,7 @@ const Header = () => {
     setSelectedCategory(category); // Update selected category
   };
 
-
-  const handleSignOut = () => {
+const handleSignOut = () => {
     // Dispatch logout action
     dispatch(logout());
     // Clear localStorage (optional)
@@ -88,7 +87,7 @@ const Header = () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     
     // Calculate the total price
-    const calculatedTotal = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+    const calculatedTotal = cart.reduce((sum, item) => sum + parseFloat(item.price*item.quantity), 0);
 
     // Update state with the total price
     setTotalPrice(calculatedTotal);

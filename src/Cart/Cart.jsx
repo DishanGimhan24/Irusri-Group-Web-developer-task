@@ -100,7 +100,8 @@ const Cart = () => {
                       <div className="count-input d-flex align-items-center justify-content-center">
                         <button
                           className="btn btn-sm btn-outline-secondary"
-                          onClick={() => handleQuantityChange(product.id, -1)} // Decrease quantity for specific product
+                          onClick={() => handleQuantityChange(product.id, -1)}
+                       // Decrease quantity for specific product
                           disabled={product.quantity === 1} // Disable if quantity is 1
                         >
                           -

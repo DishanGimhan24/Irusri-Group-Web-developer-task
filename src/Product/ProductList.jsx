@@ -151,22 +151,51 @@ const ProductList = () => {
       )
     : filteredProducts1;
 
-  const addToCart = (product) => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingProduct = storedCart.find((item) => item.id === product.id);
-    if (existingProduct) {
-      alert(`${product.name} is already in the cart!`);
-    } else {
-      const productWithDefaultQuantity = { ...product, quantity: 1 };
-      const newCart = [...storedCart, productWithDefaultQuantity];
-      setCart(newCart);
-      localStorage.setItem("cart", JSON.stringify(newCart));
-      const cartCount = newCart.length;
-      localStorage.setItem("cartCount", JSON.stringify(cartCount));
-      alert(`${product.name} added to cart!`);
-      window.location.reload();
-    }
-  };
+    const addToCart = (product) => {
+      // Retrieve cart from localStorage or initialize it as an empty array
+      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      console.log("Stored Cart:", storedCart);
+    
+      // Check if the product already exists in the cart
+      const existingProduct = storedCart.find((item) => item.id === product.id);
+      console.log("Existing Product:", existingProduct);
+    
+      if (existingProduct) {
+        // If the product exists, alert the user
+        alert(`${product.name} is already in the cart!`);
+        console.log(`${product.name} is already in the cart!`);
+      } else {
+        // If the product doesn't exist, add it to the cart with default quantity
+        const productWithDefaultQuantity = { ...product, quantity: 1 };
+        console.log("Product with Default Quantity:", productWithDefaultQuantity);
+    
+        // Create a new cart with the new product added
+        const newCart = [...storedCart, productWithDefaultQuantity];
+        console.log("New Cart:", newCart);
+    
+        // Update the cart state
+        setCart(newCart);
+        console.log("Updated Cart State:", newCart);
+    
+        // Save the updated cart to localStorage
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        console.log("Saved Cart to LocalStorage:", newCart);
+    
+        // Update the cart count and save it to localStorage
+        const cartCount = newCart.length;
+        localStorage.setItem("cartCount", JSON.stringify(cartCount));
+        console.log("Updated Cart Count:", cartCount);
+    
+        // Alert the user that the product was added
+        alert(`${product.name} added to cart!`);
+        console.log(`${product.name} added to cart!`);
+    
+        // Reload the page (if needed)
+
+        console.log("Page reloaded");
+      }
+    };
+    
 
   const addToWishlist = (product) => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
