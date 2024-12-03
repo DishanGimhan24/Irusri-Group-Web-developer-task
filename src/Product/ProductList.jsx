@@ -10,7 +10,7 @@ const ProductList = () => {
   const { searchTerm } = useContext(SearchContext);
   const { selectedCategory } = useCategories();
 
-  const [setCart] = useState(
+  const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
   const products = [
