@@ -10,7 +10,7 @@ const ProductList = () => {
   const { searchTerm } = useContext(SearchContext);
   const { selectedCategory } = useCategories();
 
-  const [cart, setCart] = useState(
+  const [setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
   const products = [
@@ -191,7 +191,7 @@ const ProductList = () => {
         console.log(`${product.name} added to cart!`);
     
         // Reload the page (if needed)
-
+        window.location.reload();
         console.log("Page reloaded");
       }
     };
